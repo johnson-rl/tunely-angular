@@ -29,10 +29,17 @@
     <div class="container" ng-controller="AlbumsIndexController as albumsIndexCtrl">
       <input type="text" class="form-control" placeholder="New album name" ng-model="albumsIndexCtrl.newAlbum.name">
       <input type="text" class="form-control" placeholder="New album artist" ng-model="albumsIndexCtrl.newAlbum.artistName">
-
-
-      <p><b>albumsIndexCtrl.newAlbum:</b> {{albumsIndexCtrl.newAlbum}}</p>
-
+      <h4>New Album</h6>
+      <p><b>{{albumsIndexCtrl.newAlbum.artistName}}</b> - {{albumsIndexCtrl.newAlbum.name}}</p>
+      <hr>
+      <label>Search: <input ng-model="searchText"></label>
+        <hr>
+        <table id="searchTextResults">
+          <p><b>Albums: </b></p>
+          <div ng-repeat="album in albumsIndexCtrl.albums | orderBy: 'artistName' | filter: searchText " >
+            <p><b>{{album.artistName}}</b> - {{album.name}}</p>
+          </div>
+        </table>
   </div>
   </body>
 
