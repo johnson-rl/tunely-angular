@@ -8,9 +8,15 @@ var db = require('../models');
 
 // GET /api/albums
 function index(req, res) {
-  db.Album.find({}, function(err, allAlbums) {
-    res.json(allAlbums);
-  });
+  if (req.query.artistName){
+    db.Album.find({artistName: req.query.artistName}, function(err, albums){
+      res.json(albums);
+    });
+  } else {
+    db.Album.find({}, function(err, allAlbums) {
+      res.json(allAlbums);
+    });
+  }
 }
 
 function create(req, res) {

@@ -3,7 +3,7 @@
  * This is your main angular file. Edit as you see fit.
  *
  */
-
+console.log('sane')
 angular
   .module('tunely', [])
   .controller('AlbumsIndexController', AlbumsIndexController);
@@ -16,7 +16,7 @@ AlbumsIndexController.$inject = ['$http'];
 function AlbumsIndexController ($http) {
   var vm = this;
   vm.newAlbum = {};
-
+  vm.foundAlbum = {};
   $http({
     method: 'GET',
     url: '/api/albums'
@@ -25,6 +25,11 @@ function AlbumsIndexController ($http) {
   function gotAlbums(res){
     console.log(res);
     vm.albums = res.data;
+  }
+
+  function gotAlbum(res){
+    console.log(res)
+    vm.albums = res.data
   }
 
   function dinnaGetAlbums(err){
@@ -43,7 +48,13 @@ function AlbumsIndexController ($http) {
     console.log('There was an error posting the data', response);
   });
 }
-
+  vm.find = function () {
+    console.log('clicked', vm.foundAlbum.artistName)
+    $http({
+      method: 'GET',
+      url: '/api/albums?artistName='+vm.foundAlbum.artistName
+    }).then(gotAlbum,dinnaGetAlbums);
+  }
   // vm.newAlbum = {
   //     name: 'Viva Hate',
   //     artistName: 'Morrissey'
