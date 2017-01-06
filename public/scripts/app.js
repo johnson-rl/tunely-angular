@@ -20,16 +20,29 @@ function AlbumsIndexController ($http) {
   $http({
     method: 'GET',
     url: '/api/albums'
-  }).then(gotAlbums,dinnaGetAlbums)
+  }).then(gotAlbums,dinnaGetAlbums);
 
   function gotAlbums(res){
-    console.log(res)
-    vm.albums = res.data
+    console.log(res);
+    vm.albums = res.data;
   }
 
   function dinnaGetAlbums(err){
-    console.log('Ahhh, schnikes....dinna get albums', err)
+    console.log('Ahhh, schnikes....dinna get albums', err);
   }
+
+  vm.createAlbum = function () {
+  $http({
+    method: 'POST',
+    url: '/api/albums',
+    data: vm.newAlbum
+  }).then(function successCallback(response) {
+    console.log(response)
+    vm.albums.push(response.data)
+  }, function errorCallback(response) {
+    console.log('There was an error posting the data', response);
+  });
+}
 
   // vm.newAlbum = {
   //     name: 'Viva Hate',
