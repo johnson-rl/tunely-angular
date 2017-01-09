@@ -16,7 +16,14 @@ AlbumsIndexController.$inject = ['$http'];
 function AlbumsIndexController ($http) {
   var vm = this;
   vm.newAlbum = {};
+  vm.genreAdd = {genres:[{},{}]}
   vm.foundAlbum = {};
+
+  vm.count = function(){
+    vm.genreAdd.genres.push({})
+    console.log(vm.genreAdd)
+  }
+
   $http({
     method: 'GET',
     url: '/api/albums'
@@ -37,6 +44,12 @@ function AlbumsIndexController ($http) {
   }
 
   vm.createAlbum = function () {
+    console.log(vm.genreAdd.genres)
+    vm.newAlbum.genres = ''
+    vm.genreAdd.genres.forEach(function(genre){
+      vm.newAlbum.genres = vm.newAlbum.genres + genre.name + ', '
+     })
+     vm.newAlbum.genres = vm.newAlbum.genres.slice(0, -2)
   $http({
     method: 'POST',
     url: '/api/albums',
@@ -44,6 +57,7 @@ function AlbumsIndexController ($http) {
   }).then(function successCallback(response) {
     console.log(response)
     vm.albums.push(response.data)
+    vm.newAlbum = {}
   }, function errorCallback(response) {
     console.log('There was an error posting the data', response);
   });
@@ -55,23 +69,4 @@ function AlbumsIndexController ($http) {
       url: '/api/albums?artistName='+vm.foundAlbum.artistName
     }).then(gotAlbum,dinnaGetAlbums);
   }
-  // vm.newAlbum = {
-  //     name: 'Viva Hate',
-  //     artistName: 'Morrissey'
-  // };
-  //
-  // vm.albums = [
-  //   {
-  //     name: 'Coming Home',
-  //     artistName: 'Leon Bridges'
-  //   },
-  //   {
-  //     name: 'Are We There',
-  //     artistName: 'Sharon Van Etten'
-  //   },
-  //   {
-  //     name: 'The Queen is Dead',
-  //     artistName: 'The Smiths'
-  //   }
-  // ];
 }

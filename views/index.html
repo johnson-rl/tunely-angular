@@ -36,23 +36,29 @@
         <input type="text" class="form-control" placeholder="New album name" ng-model="albumsIndexCtrl.newAlbum.name">
         <input type="text" class="form-control" placeholder="New album artist" ng-model="albumsIndexCtrl.newAlbum.artistName">
         <input type="text" class="form-control" placeholder="New album release date" ng-model="albumsIndexCtrl.newAlbum.releaseDate">
-        <div id="toAppend">
-        <input type="text" class="form-control" placeholder="New album genres" ng-model="albumsIndexCtrl.newAlbum.genres">
-        <button ngClick="function(){document.getElementById('append').appendChild(document.getElementById('toAppend'))}" id="append">Add a genre</button>
-        </div>
-        <br>
-        <button type="submit" class="form-control" name="button">Sumbit</button>
-      </form>
+        <!-- <input type="text" class="form-control" placeholder="New album genres" ng-model="albumsIndexCtrl.newAlbum.genres"> -->
+        <!-- <input type="hidden" ng-model="albumsIndexCtrl.genreAdd.genres"> -->
+      <p>genres(list one per row):</p>
+      <div ng-repeat="genre in albumsIndexCtrl.genreAdd.genres track by $index">
+        <input type="text" ng-model="genre.name" name="">
+      </div>
+      <button type="button" name="button" class="btn btn-sm btn-xs-default" ng-click="albumsIndexCtrl.count()">Add a genre</button>
+      <br>
+      <br>
+      <button type="submit" class="form-control" name="button">Sumbit</button>
+      <br>
+    </form>
+
       <p><b>New Album:</b> {{albumsIndexCtrl.newAlbum.name + " by " + albumsIndexCtrl.newAlbum.artistName + " released in " + albumsIndexCtrl.newAlbum.releaseDate + " genres: " + albumsIndexCtrl.newAlbum.genres}}</p>
       <input type="text" class="form-control" ng-model="searchText" placeholder="Search Albums">
       <br>
       <form ng-submit="albumsIndexCtrl.find()">
         <!-- <input type="text" class="form-control" placeholder="New album name" ng-model="albumsIndexCtrl.findAlbum.name"> -->
-        <input type="text" class="form-control" placeholder="New album artist" ng-model="albumsIndexCtrl.foundAlbum.artistName">
+        <input type="text" class="form-control" placeholder="Search the database" ng-model="albumsIndexCtrl.foundAlbum.artistName">
         <!-- <input type="text" class="form-control" placeholder="New album genres" ng-model="albumsIndexCtrl.findAlbum.genres"> -->
         <!-- <input type="text" class="form-control" placeholder="New album release date" ng-model="albumsIndexCtrl.findAlbum.releaseDate"> -->
         <br>
-        <button type="submit" class="form-control" name="button">Sumbit</button>
+        <button type="submit" class="form-control" name="button">Search the database for Artist</button>
       </form>
       <br>
       <div ng-repeat="album in albumsIndexCtrl.albums | orderBy: 'name' | filter: searchText" class="row">
@@ -80,7 +86,7 @@
                     </li>
                     <li class="list-group-item">
                       <h4 class="inline-header">Genres:</h4>
-                      <span ng-repeat="genre in album.genres">{{genre + ' '}}</span>
+                      <span ng-repeat="genre in album.genres track by $index">{{genre + ' '}}</span>
                     </li>
                   </ul>
                 </div>
