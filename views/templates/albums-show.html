@@ -7,7 +7,7 @@
             <div class="panel-body">
               <div class='row'>
                 <div class="col-md-3 col-xs-12 thumbnail">
-                  <img src="images/800x800.png" alt="album image">
+                  <img src="/images/800x800.png" alt="album image">
                 </div>
 
                 <div class="col-md-9 col-xs-12">
@@ -30,12 +30,35 @@
                     <li class="list-group-item">
                       <h4 class="inline-header">Songs:</h4>
                       <div class="list-group-item" ng-repeat="song in albumsShowCtrl.album.songs">
-                        ({{song.trackNumber}}){{song.name}}
+                        <button class='btn btn-info glyphicon glyphicon-pencil' ng-hide="editing" ng-click="editing = true"></button>
+                        <button class='btn btn-success glyphicon glyphicon-king' ng-show="editing" ng-click="editing = false; albumsShowCtrl.editSong(song)"></button>
+                        <button class='btn btn-danger glyphicon glyphicon-trash' ng-click="albumsShowCtrl.deleteSong(song)"></button>
+                        <span ng-hide="editing">({{song.trackNumber}}){{song.name}}</span>
+                        <!-- <iframe src='https://embed.spotify.com/?uri=spotify:track:39tLc4Xp58Lu4KcWHggeE2' width="300" height="80" frameborder="0" allowtransparency="true"></iframe> -->
+                        <input ng-show="editing" type="text" ng-model="song.name">
+                      </div>
+                    </li>
+                    <li class="list-group-item">
+                      <h4 class="inline-header">Songs:</h4>
+                      <div class="list-group-item" ng-repeat="song in albumsShowCtrl.spotify | orderBy: trackNumber">
+                        <button class='btn btn-info glyphicon glyphicon-pencil' ng-hide="editing" ng-click="editing = true"></button>
+                        <button class='btn btn-success glyphicon glyphicon-king' ng-show="editing" ng-click="editing = false; albumsShowCtrl.editSong(song)"></button>
+                        <button class='btn btn-danger glyphicon glyphicon-trash' ng-click="albumsShowCtrl.deleteSong(song)"></button>
+                        <span ng-hide="editing">({{song.trackNumber}}){{song.name}} - {{song.uri}}</span>
+                        <iframe ng-src={{+song.uri}} width="300" height="80" frameborder="0" allowtransparency="true"></iframe>
+                        <input ng-show="editing" type="text" ng-model="song.name">
                       </div>
                     </li>
                   </ul>
                 </div>
               </div>
+              <div class="col-md-9 col-md-offset-2">
+                <hr>
+                <button class='btn btn-success glyphicon glyphicon-queen' type="button" name="button" ng-click="albumsShowCtrl.createSong(albumsShowCtrl.newSong)">Add a track</button>
+                <input type="text" ng-model="albumsShowCtrl.newSong.trackNumber" placeholder="Track Number">
+                <input type="text" ng-model="albumsShowCtrl.newSong.name" placeholder="Track Title">
+              </div>
+
             </div>
           </div>
         </div>
